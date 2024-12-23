@@ -10,3 +10,9 @@ This is a [React](https://reactjs.org/) project using [Tailwind CSS](https://tai
 ## Acknowledgments
 - [Tailwind CSS](https://tailwindcss.com/) for the amazing CSS framework.
 - [Django](https://www.djangoproject.com/) for the backend support.
+
+
+
+## Screenshots
+![Homepage Screenshot](![Screenshot from 2024-12-22 22-50-45](https://github.com/user-attachments/assets/cc8f3c32-4e77-476e-bf2c-296dc5327ff2)
+)
