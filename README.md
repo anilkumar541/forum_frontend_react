@@ -1,8 +1,2 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Online Forum Platform
+The Online Forum Platform is a full-stack project built with Django and ReactJS, designed to facilitate knowledge-sharing and discussions. It allows users to create tags, post questions with detailed descriptions, and interact with answers by liking or disliking them. The platform features a robust user authentication system, ensuring only logged-in users can contribute content, while guests can freely explore. Real-time updates powered by WebSockets enhance user experience by instantly notifying active users about new questions. This project combines interactivity, scalability, and a focus on community engagement.
