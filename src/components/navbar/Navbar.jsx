@@ -27,7 +27,6 @@ const Navbar = () => {
       
       <div className="hidden md:flex space-x-4">
         <Link to={"/"} className="hover:text-gray-400">Home</Link>
-        <Link to={"/contact"} className="hover:text-gray-400">Contact</Link>
         {!user ? (
             <>
                 <Link to={"/signup"} className="hover:text-gray-400">Signup</Link>

@@ -30,10 +30,10 @@ export const AuthProvider= ({children}) =>{
 
     // Handle login 
     const login= async (formData) => {
-        const loginApiUrl= import.meta.env.VITE_LOGIN_API_URL;
+        const base_url= import.meta.env.VITE_API_BASE_URL;
         
         try {
-            const response = await axios.post(loginApiUrl, formData);
+            const response = await axios.post(`${base_url}/forum/login/`, formData);
             if (response.status === 200) {
                 console.log(response.data.token);
                 

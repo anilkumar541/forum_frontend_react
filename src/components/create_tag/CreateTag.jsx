@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import api from '../../utility/api';
 
 const CreateTag = () => {
     const [tag, setTag]= useState("");
@@ -10,8 +10,7 @@ const CreateTag = () => {
     const fetchTags= async ()=> {
         try {
             const accessToken= localStorage.getItem("access_token");
-            const api_url= import.meta.env.VITE_GET_TAGS_API_URL;
-            const response= await axios.get(api_url, {
+            const response= await api.get("/forum/tags/", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -33,8 +32,7 @@ const CreateTag = () => {
         e.preventDefault();
         try {
             const accessToken= localStorage.getItem("access_token");
-            const api_url= import.meta.env.VITE_CREATE_TAGS_API_URL;
-            const response= await axios.post(api_url, {tag: tag}, {
+            const response= await api.post("/forum/create-tag/", {tag: tag}, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 }

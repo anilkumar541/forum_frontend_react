@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../utility/api";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -21,11 +21,9 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const signupApiUrl = import.meta.env.VITE_SIGNUP_API_URL;
-    console.log(formData, "d");
     
     try {
-      const response = await axios.post(signupApiUrl, formData);
+      const response = await api.post("/forum/signup/", formData);
       if (response.status === 201) {
         setMessage(response.data.status);
         setFormData({ username: "", email: "", password: "" });

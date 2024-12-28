@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import timeAgo from "../../utility/timestamp";
 import Modal from "../modal/Modal";
-import axios from "axios";
 import { useAuth } from "../context/auth/AuthContext";
-
+import api from "../../utility/api";
 
 const Answer = ({id, body, username, upvotes: initialUpvotes, downvotes: initialdDownVotes, created_at}) => {
     const {user}= useAuth();
@@ -31,12 +30,11 @@ const Answer = ({id, body, username, upvotes: initialUpvotes, downvotes: initial
         }
 
         try {
-            const apiUrl = import.meta.env.VITE_VOTE_API_URL;
             const accessToken= localStorage.getItem("access_token");
             const body= {
                 "is_upvote": voteType
             }
-            const response= await axios.post(`${apiUrl}${answer_id}/`, body, {
+            const response= await api.post(`/forum/answer/vote/${answer_id}/`, body, {
               headers: {
                 Authorization: `Bearer ${accessToken}`
               }

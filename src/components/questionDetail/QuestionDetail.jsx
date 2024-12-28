@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Answer from "../answer/Answer";
 import { useAuth } from "../context/auth/AuthContext";
 import Modal from "../modal/Modal";
+import api from "../../utility/api";
 
 
 const QuestionDetail = () => {
@@ -20,9 +20,9 @@ const QuestionDetail = () => {
 
   // Fetch question detail and refresh on comment submission
   const fetchQuestionDetail = async () => {
-    const apiUrl = import.meta.env.VITE_QUESTION_DETAIL_API_URL;
+    // const apiUrl = import.meta.env.VITE_QUESTION_DETAIL_API_URL;
     try {
-      const response = await axios.get(`${apiUrl}${questionId}/`);
+      const response = await api.get(`/forum/question/${questionId}/`);
       setQuestion(response.data);
     } catch (error) {
       setError(error);
@@ -45,9 +45,8 @@ const QuestionDetail = () => {
 
     try {
       const accessToken= localStorage.getItem("access_token");
-      const api_url= import.meta.env.VITE_QUESTION_ANSWER_API_URL;
       const body= {"body": answerInput}
-      const response= await axios.post(`${api_url}${questionId}/`, body, {
+      const response= await api.post(`/forum/question-answer/${questionId}/`, body, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }

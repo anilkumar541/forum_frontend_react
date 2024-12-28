@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { questionContext } from '../context/question_context/Question';
+import api from '../../utility/api';
 
 const CreateQuestion = () => {
   // const {questions, setQuestions}= useContext(questionContext);
@@ -15,44 +14,10 @@ const CreateQuestion = () => {
   const navigate = useNavigate();
   const aceesToken= localStorage.getItem("access_token");
   
-
-  // useEffect(() => {
-  //   const socket = new WebSocket("ws://127.0.0.1:8000/ws/newsfeed/");
-    
-  //   socket.onopen = () => {
-  //     console.log("WebSocket connection established.");
-  //   };
-
-  //   socket.onerror = (error) => {
-  //     console.error("WebSocket error:", error);
-  //   };
-
-  //   socket.onmessage = (event) => {
-  //     console.log(event, "are we ");
-      
-  //     const newQuestion = JSON.parse(event.data);
-  //     console.log(newQuestion, "We");
-      
-  //     setQuestions((prevQuestions) => [newQuestion, ...prevQuestions]);
-  //   };
-
-  //   socket.onclose = (event) => {
-  //     console.log("WebSocket connection closed:", event);
-  //     if (event.code !== 1000) {
-  //       console.error("Unexpected close code:", event.code);
-  //     }
-  //   };
-
-  //   // return () => {
-  //   //   socket.close();
-  //   // };
-  // }, []);
-
   
   const fetchTags = async () => {
-    const api_url= import.meta.env.VITE_GET_TAGS_API_URL;
     try {
-      const response = await axios.get(api_url, {
+      const response = await api.get("/forum/tags/", {
         headers: {
           Authorization: `Bearer ${aceesToken}` 
         }
@@ -90,7 +55,6 @@ const CreateQuestion = () => {
     setLoading(true);
     setError(null);
 
-    const apiUrl = import.meta.env.VITE_CREATE_QUESTION_API_URL;
     const data= {
         title,
         body,
@@ -98,7 +62,7 @@ const CreateQuestion = () => {
       }
 
     try {
-      const response = await axios.post(apiUrl, data, {
+      const response = await api.post("/forum/create-question/", data, {
         headers: {
             Authorization: `Bearer ${aceesToken}`,
         }
