@@ -24,9 +24,10 @@ const Home = () => {
     setLoading(true);
 
     try {
+      const searchParam = searchTag.trim() === "" ? "" : searchTag;
       const response = await api.get(`/forum/questions/`, {
         params: {
-          search: searchTag,
+          search: searchParam,
           page_limit: pageLimit,
           page_offset: pageOffset,
         },
@@ -48,6 +49,7 @@ const Home = () => {
             return [...prevQuestions, ...uniqueQuestions];
           }
         });
+        // setQuestions(newQuestions)
         setHasMore(newQuestions.length > 0);
       } else {
         console.log("Something went wrong");
@@ -68,7 +70,7 @@ const Home = () => {
     };
   };
 
-  const getQuestionsDebounced = debounce(getQuestions, 500);
+  const getQuestionsDebounced = debounce(getQuestions, 700);
 
   useEffect(() => {
     // Reset questions and offset when searchTag changes
@@ -79,7 +81,7 @@ const Home = () => {
   }, [searchTag]);
 
   useEffect(() => {
-    if(pageOffset > 0){
+    if (pageOffset > 0) {
       getQuestionsDebounced();
     }
   }, [pageOffset]);
@@ -89,7 +91,7 @@ const Home = () => {
     let retries = 0;
 
     const connect = () => {
-      socket = new WebSocket("ws://127.0.0.1:8000/ws/questions/");
+      socket = new WebSocket("wss://forum-apis.onrender.com/ws/questions/");
 
       socket.onopen = () => {
         console.log("WebSocket connected.");
@@ -98,7 +100,7 @@ const Home = () => {
 
       socket.onmessage = (event) => {
         const newQuestion = JSON.parse(event.data);
-        if (newQuestion.message){
+        if (newQuestion.message) {
           setIsNewQuestionButton(true);
           setNewQuestions((prev) => [newQuestion.message, ...prev]);
         }
@@ -110,7 +112,6 @@ const Home = () => {
 
       socket.onclose = (event) => {
         console.log("WebSocket closed:");
-
       };
     };
 
@@ -120,7 +121,6 @@ const Home = () => {
       if (socket) socket.close();
     };
   }, []);
-
 
   const handleNewQuestions = () => {
     setQuestions((prev) => [...newQuestions, ...prev]);
@@ -134,10 +134,11 @@ const Home = () => {
 
     // Trigger when user scrolls to the bottom
     if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
-      setPageOffset((prevOffset) => prevOffset + pageLimit);
+      setPageOffset(
+        (prevOffset) => parseInt(prevOffset, 10) + parseInt(pageLimit, 10)
+      );
     }
   };
-
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll); // Clean up
@@ -217,15 +218,11 @@ const Home = () => {
         />
       )}
 
+      {loading && <p className="text-center text-gray-500 mt-4">Loading..</p>}
 
-      {loading && (
-        <p className="text-center text-gray-500 mt-4">Loading..</p>
-      )}
-      
       {!hasMore && !loading && (
         <p className="text-center text-gray-500 mt-4">No posts available..</p>
       )}
-
     </div>
   );
 };
